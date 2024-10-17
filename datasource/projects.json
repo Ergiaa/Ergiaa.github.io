@@ -1,0 +1,19 @@
+[
+    {
+        "name": "Project Name 1",
+        "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius at enim eum illum aperiam placeat esse?",
+        "images": [
+            "https://dummyimage.com/300x400/343a40/6c757d",
+            "https://dummyimage.com/300x400/555555/aaaaaa",
+            "https://dummyimage.com/300x400/777777/bbbbb"
+        ]
+    },
+    {
+        "name": "Project Name 2",
+        "description": "Another project description goes here. Explicabo commodi quo itaque! Ipsam mollitia omnis minima saepe.",
+        "images": [
+            "https://dummyimage.com/300x400/888888/cccccc",
+            "https://dummyimage.com/300x400/aaaaaa/dddddd"
+        ]
+    }
+]
