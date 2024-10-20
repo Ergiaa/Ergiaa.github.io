@@ -163,31 +163,45 @@ function validateEmail(email) {
 
 // Function to validate phone number
 function validatePhoneNumber(phone) {
-    const phoneRegex = /^\(\d{3}\) \d{3}-\d{4}$/; // Matches format (123) 456-7890
+    const phoneRegex = /^(08\d{8,12}|\+62\d{8,12})$/; // Matches 08XXXXXXXXXX or +62XXXXXXXXXX
     return phoneRegex.test(phone);
 }
 
-// Function to validate the form
 export function validateForm(event) {
-    event.preventDefault(); // Prevent default form submission
+    event.preventDefault(); // Prevent the default form submission
 
-    const emailInput = document.getElementById('email').value;
-    const phoneInput = document.getElementById('phone').value;
-    const emailValid = validateEmail(emailInput);
-    const phoneValid = validatePhoneNumber(phoneInput);
+    const email = document.getElementById('email').value;
+    const phone = document.getElementById('phone').value;
 
-    if (!emailValid) {
-        alert("Please enter a valid email address.");
-        return false;
+    // Email and phone validation
+    const isEmailValid = validateEmail(email);
+    const isPhoneValid = validatePhoneNumber(phone);
+
+    let message = '';
+
+    if (isEmailValid && isPhoneValid) {
+        message = 'Success! Your message has been sent.';
+        // Show the validation message in the modal
+        document.getElementById('validationModalMessage').innerText = message;
+        const validationModal = new bootstrap.Modal(document.getElementById('validationModal'));
+        validationModal.show(); // Show the modal
+
+        // Reload the page after a brief delay
+        setTimeout(() => {
+            location.reload(); // Reload the page
+        }, 2000); // Adjust the delay (2000ms = 2 seconds)
+    } else {
+        message = 'Error: ';
+        if (!isEmailValid) {
+            message += 'Invalid email format. ';
+        }
+        if (!isPhoneValid) {
+            message += 'Phone number must start with 08 or +62. ';
+        }
+
+        // Show the validation message in the modal
+        document.getElementById('validationModalMessage').innerText = message;
+        const validationModal = new bootstrap.Modal(document.getElementById('validationModal'));
+        validationModal.show(); // Show the modal
     }
-
-    if (!phoneValid) {
-        alert("Please enter a valid phone number in the format (123) 456-7890.");
-        return false;
-    }
-
-    // If both are valid, you can proceed with form submission
-    alert("Form submitted successfully!");
-    // Optionally, you can manually submit the form here if needed
-    // document.getElementById('contactForm').submit();
 }
