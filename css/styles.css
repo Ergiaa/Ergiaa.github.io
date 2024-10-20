@@ -5818,6 +5818,54 @@ textarea.form-control-lg {
   }
 }
 
+/* Custom modal size */
+.modal-custom {
+  max-height: 800px;  /* Set your desired max width */
+  width: 100%;         /* Ensure it takes up full width */
+}
+
+.modal-body {
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: center;     /* Center vertically */
+}
+
+/* Styles for the images in the project cards */
+.carousel-item img.project-image {
+  width: 300px;       /* Width of the image */
+  height: 400px;      /* Height of the image */
+  object-fit: cover;  /* Crop the image to fit */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for hover effects */
+}
+
+/* Shadow overlay on hover */
+.carousel-item img.project-image:hover {
+  transform: scale(1.1); /* Zoom effect */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); /* Shadow effect */
+}
+
+/* Full image in the modal */
+.full-image {
+  max-width: 90vh;      /* Limit to 100% of the parent */
+  max-height: 80vh;     /* Prevent overflowing the viewport */
+  object-fit: contain;   /* Ensure the full image is visible */
+}
+
+/* Centering the modal */
+.modal-dialog-centered {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100% - 1rem);
+}
+
+/* Centering the image in the modal */
+.modal-body {
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: center;     /* Center vertically if needed */
+}
+
 .carousel-item.active,
 .carousel-item-next,
 .carousel-item-prev {

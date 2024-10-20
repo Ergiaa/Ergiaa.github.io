@@ -85,53 +85,109 @@ export function projectCard() {
         .then((projects) => {
             const projectList = document.getElementById('project-list');
 
-        projects.forEach((project, index) => {
-          // Create carousel indicators
-            const indicators = project.images.map((_, i) => `
-                <button type="button" data-bs-target="#carousel${index}" data-bs-slide-to="${i}" class="${i === 0 ? 'active' : ''}" aria-current="${i === 0 ? 'true' : ''}" aria-label="Slide ${i + 1}"></button>
-            `).join('');
+            projects.forEach((project, index) => {
+                // Create carousel indicators
+                const indicators = project.images.map((_, i) => `
+                    <button type="button" data-bs-target="#carousel${index}" data-bs-slide-to="${i}" class="${i === 0 ? 'active' : ''}" aria-current="${i === 0 ? 'true' : ''}" aria-label="Slide ${i + 1}"></button>
+                `).join('');
 
-          // Create carousel items
-            const carouselItems = project.images.map((image, i) => `
-                <div class="carousel-item ${i === 0 ? 'active' : ''}">
-                    <img src="${image}" class="d-block w-300" alt="Project Image ${i + 1}">
-                </div>
-            `).join('');
-
-          // Create the project card
-            const projectCard = `
-                <div class="card overflow-hidden shadow rounded-4 border-0 mb-5">
-                <div class="card-body p-0">
-                    <div class="d-flex align-items-center">
-                        <div class="p-5">
-                            <h2 class="fw-bolder">${project.name}</h2>
-                            <p>${project.description}</p>
-                        </div>
-                        <!-- Carousel -->
-                        <div id="carousel${index}" class="carousel slide" data-bs-ride="carousel" data-bs-interval="8000">
-                        <div class="carousel-indicators">
-                            ${indicators}
-                        </div>
-                        <div class="carousel-inner">
-                            ${carouselItems}
-                        </div>
-                        <button class="carousel-control-prev" type="button" data-bs-target="#carousel${index}" data-bs-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Previous</span>
-                        </button>
-                        <button class="carousel-control-next" type="button" data-bs-target="#carousel${index}" data-bs-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Next</span>
-                        </button>
+                // Create carousel items with modal trigger
+                const carouselItems = project.images.map((image, i) => `
+                    <div class="carousel-item ${i === 0 ? 'active' : ''}">
+                        <img src="${image}" class="d-block project-image" alt="Project Image ${i + 1}" data-bs-toggle="modal" data-bs-target="#modal${index}${i}">
+                        
+                        <!-- Modal -->
+                        <div class="modal fade" id="modal${index}${i}" tabindex="-1" aria-labelledby="modalLabel${index}${i}" aria-hidden="true">
+                            <div class="modal-dialog modal-custom modal-dialog-centered"> <!-- Add modal-custom class -->
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="modalLabel${index}${i}">${project.name} - Image ${i + 1}</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <img src="${image}" class="img-fluid full-image" alt="Project Image ${i + 1}">
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-                </div>
-            `;
+                `).join('');
 
-          // Append the project card to the project list
-            projectList.innerHTML += projectCard;
+
+                // Create the project card
+                const projectCard = `
+                    <div class="card overflow-hidden shadow rounded-4 border-0 mb-5">
+                        <div class="card-body p-0">
+                            <div class="d-flex align-items-center">
+                                <div class="p-5">
+                                    <h2 class="fw-bolder">${project.name}</h2>
+                                    <p>${project.description}</p>
+                                </div>
+                                <!-- Carousel -->
+                                <div id="carousel${index}" class="carousel slide" data-bs-ride="carousel" data-bs-interval="8000">
+                                    <div class="carousel-indicators">
+                                        ${indicators}
+                                    </div>
+                                    <div class="carousel-inner">
+                                        ${carouselItems}
+                                    </div>
+                                    <button class="carousel-control-prev" type="button" data-bs-target="#carousel${index}" data-bs-slide="prev">
+                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Previous</span>
+                                    </button>
+                                    <button class="carousel-control-next" type="button" data-bs-target="#carousel${index}" data-bs-slide="next">
+                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Next</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                // Append the project card to the project list
+                projectList.innerHTML += projectCard;
             });
         })
         .catch((error) => console.error('Error fetching project data:', error));
+}
+
+// Function to validate email
+function validateEmail(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+}
+
+// Function to validate phone number
+function validatePhoneNumber(phone) {
+    const phoneRegex = /^\(\d{3}\) \d{3}-\d{4}$/; // Matches format (123) 456-7890
+    return phoneRegex.test(phone);
+}
+
+// Function to validate the form
+export function validateForm(event) {
+    event.preventDefault(); // Prevent default form submission
+
+    const emailInput = document.getElementById('email').value;
+    const phoneInput = document.getElementById('phone').value;
+    const emailValid = validateEmail(emailInput);
+    const phoneValid = validatePhoneNumber(phoneInput);
+
+    if (!emailValid) {
+        alert("Please enter a valid email address.");
+        return false;
+    }
+
+    if (!phoneValid) {
+        alert("Please enter a valid phone number in the format (123) 456-7890.");
+        return false;
+    }
+
+    // If both are valid, you can proceed with form submission
+    alert("Form submitted successfully!");
+    // Optionally, you can manually submit the form here if needed
+    // document.getElementById('contactForm').submit();
 }
