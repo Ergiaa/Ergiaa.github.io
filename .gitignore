@@ -1,0 +1,27 @@
+# System files
+.DS_Store
+Thumbs.db
+
+# IDE and Editor directories
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Temporary files
+*.tmp
+*.bak
+*.log
+
+# Personal notes
+notes.md
+TODO.md
+NOTES.txt
+
+# Node modules (if you add build tools later)
+node_modules/
+
+# Environment files
+.env
+.env.local
